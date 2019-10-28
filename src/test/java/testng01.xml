@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="methods" thread-count="10">
+    <test name="测试">
+        <classes>
+            <class name="section10.NewTest01"></class>
+            <class name="section10.NewTest"></class>
+        </classes>
+    </test> <!-- Test -->
+</suite> <!-- Suite -->
+        <!--(invocationCount=10,threadPoolSize=5)-->

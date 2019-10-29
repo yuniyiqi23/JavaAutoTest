@@ -2,23 +2,31 @@ package com.lemon.web.base;/**
  * Created by TW on 2019/10/28 16:59
  */
 
+import com.lemon.web.utils.PropertiesUtil;
 import com.lemon.web.utils.WebAutoUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 /**
- *@program: JavaAutoTest
- *@description: 测试基类
- *@author: liu yan
- *@create: 2019-10-28 16:59
+ * @program: JavaAutoTest
+ * @description: 测试基类
+ * @author: liu yan
+ * @create: 2019-10-28 16:59
  */
 public class BaseTester {
     protected static WebDriver driver = null;
 
     @BeforeSuite
-    public void beforeSuite(){
+    public void beforeSuite() {
         driver = WebAutoUtils.getDriver("chrome", "2.x");
         driver.manage().window().maximize();
     }
@@ -29,26 +37,55 @@ public class BaseTester {
         driver.quit();
     }
 
-    /** 
-    * @Description: 打开网页
-    * @Param: [url] 
-    * @return: void 
-    * @Author: Adam
-    * @Date: 2019/10/29 
-    */
-    protected void toURL(String url){
-        driver.get(url);
+    /**
+     * @Description: 显示等待元素
+     * @Param: [by]
+     * @return: org.openqa.selenium.WebElement
+     * @Author: Adam
+     * @Date: 2019/10/29
+     */
+    protected WebElement getElement(By by) {
+        return getElement(by, 5);
     }
-    
-    /** 
-    * @Description: 点击元素 
-    * @Param: [] 
-    * @return: void 
-    * @Author: Adam
-    * @Date: 2019/10/28 
-    */
-    protected void click(By by){
-        driver.findElement(by).click();
+
+    /**
+     * @Description: 显示等待元素
+     * @Param: [by, time]
+     * @return: org.openqa.selenium.WebElement
+     * @Author: Adam
+     * @Date: 2019/10/29
+     */
+    protected WebElement getElement(By by, long time) {
+        WebDriverWait wait = new WebDriverWait(driver, time);
+        return wait.until(new ExpectedCondition<WebElement>() {
+
+            @Override
+            public WebElement apply(WebDriver webDriver) {
+                return driver.findElement(by);
+            }
+        });
+    }
+
+    /**
+     * @Description: 打开网页
+     * @Param: [url]
+     * @return: void
+     * @Author: Adam
+     * @Date: 2019/10/29
+     */
+    protected void toURL(String urlKey) {
+        driver.get(PropertiesUtil.getPropertieValue(urlKey));
+    }
+
+    /**
+     * @Description: 点击元素
+     * @Param: []
+     * @return: void
+     * @Author: Adam
+     * @Date: 2019/10/28
+     */
+    protected void click(By by) {
+        getElement(by).click();
     }
 
     /**
@@ -58,8 +95,8 @@ public class BaseTester {
      * @Author: Adam
      * @Date: 2019/10/28
      */
-    protected void type(By by, String content){
-        driver.findElement(by).sendKeys(content);
+    protected void type(By by, String content) {
+        getElement(by).sendKeys(content);
     }
 
     /**
@@ -69,8 +106,8 @@ public class BaseTester {
      * @Author: Adam
      * @Date: 2019/10/28
      */
-    protected String getText(By by){
-        return driver.findElement(by).getText();
+    protected String getText(By by) {
+        return getElement(by).getText();
     }
 
 }

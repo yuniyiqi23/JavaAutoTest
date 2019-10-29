@@ -2,17 +2,16 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
     <test verbose="2" preserve-order="true"
-          name="C:/Users/TW/IdeaProjects/JavaAutoTest">
+          name="WebTest">
         <classes>
-            <class name="com.lemon.base.testCase.HttpTester">
+            <class name="com.lemon.web.testcase.login.LoginTester">
                 <methods>
-                    <include name="testCase1"/>
-                    <include name="testCase2"/>
+                    <include name="loginTestCase"/>
                 </methods>
             </class>
-            <class name="com.lemon.base.testCase.TestCase">
+            <class name="com.lemon.web.testcase.register.RegisterTester">
                 <methods>
-                    <include name="testCase1"/>
+                    <include name="registerTestCase"/>
                 </methods>
             </class>
         </classes>

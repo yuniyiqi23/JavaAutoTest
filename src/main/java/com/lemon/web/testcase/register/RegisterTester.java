@@ -20,7 +20,7 @@ public class RegisterTester extends BaseTester {
     public void registerTestCase(String mobliePhone, String password, String
             pwdConfirm, String verifyCode,
                      String expectedTips) throws InterruptedException {
-        toURL("http://test.lemonban.com/lmcanon_web_auto/mng/register.html");
+        toURL("register_url");
         type(By.id("mobilephone"), mobliePhone);
         type(By.id("password"), password);
         type(By.id("pwdconfirm"), pwdConfirm);

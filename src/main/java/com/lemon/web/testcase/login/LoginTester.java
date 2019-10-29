@@ -20,7 +20,7 @@ public class LoginTester extends BaseTester {
 
     @Test(dataProvider = "dp1", dataProviderClass = LoginDataProvider.class)
     public void loginTestCase(String mobliePhone, String password, String expectedTips) throws InterruptedException {
-        driver.get("http://test.lemonban.com/lmcanon_web_auto/mng/login.html");
+        toURL("http://test.lemonban.com/lmcanon_web_auto/mng/login.html");
         type(By.id("mobilephone"), mobliePhone);
         type(By.id("password"), password);
         click(By.id("login"));

@@ -28,6 +28,17 @@ public class BaseTester {
         Thread.sleep(3000);
         driver.quit();
     }
+
+    /** 
+    * @Description: 打开网页
+    * @Param: [url] 
+    * @return: void 
+    * @Author: Adam
+    * @Date: 2019/10/29 
+    */
+    protected void toURL(String url){
+        driver.get(url);
+    }
     
     /** 
     * @Description: 点击元素 

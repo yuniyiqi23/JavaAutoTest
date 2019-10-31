@@ -67,6 +67,29 @@ public class BaseTester {
     }
 
     /**
+     * @Description: 智能等待获取元素文本
+     * @Param: []
+     * @return: java.lang.String
+     * @Author: Adam
+     * @Date: 2019/10/31
+     */
+    protected String getElementText(By by) {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        return wait.until(new ExpectedCondition<String>() {
+            @Override
+            public String apply(WebDriver webDriver) {
+                WebElement element = driver.findElement(by);
+                // 判断元素是否存在
+                if(element != null && element.getText() != null && element
+                        .getText().length() > 0){
+                    return element.getText();
+                }
+                return null;
+            }
+        });
+    }
+
+    /**
      * @Description: 打开网页
      * @Param: [url]
      * @return: void
@@ -110,4 +133,14 @@ public class BaseTester {
         return getElement(by).getText();
     }
 
+    /**
+    * @Description: 获取URL
+    * @Param: []
+    * @return: java.lang.String
+    * @Author: Adam
+    * @Date: 2019/10/31
+    */
+    protected String getCurrentUrl(){
+        return driver.getCurrentUrl();
+    }
 }

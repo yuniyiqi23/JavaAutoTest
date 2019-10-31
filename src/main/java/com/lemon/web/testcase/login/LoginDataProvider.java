@@ -2,24 +2,41 @@ package com.lemon.web.testcase.login;/**
  * Created by TW on 2019/10/28 16:51
  */
 
+import com.lemon.web.utils.DataProviderUtils;
+import com.lemon.web.utils.ExcelUtil;
 import org.testng.annotations.DataProvider;
 
+import java.lang.reflect.Method;
+import java.util.List;
+
 /**
- *@program: JavaAutoTest
- *@description: 登录数据提供者
- *@author: liu yan
- *@create: 2019-10-28 16:51
+ * @program: JavaAutoTest
+ * @description: 登录数据提供者
+ * @author: liu yan
+ * @create: 2019-10-28 16:51
  */
 public class LoginDataProvider {
+
     //反向测试用例的数据提供者
     @DataProvider
-    public static Object[][] dp1() {
-        return new Object[][] {
-                new Object[] { "", "", "用户名不能为空" },
-                new Object[] { "lemon", "", "非法的手机号" },
-                new Object[] { "13888886666", "", "密码不能为空" },
-                new Object[] { "13888886666", "12345", "账号信息错误" }
-        };
+    public static Object[][] failData(Method method) {
+        // 从方法名中获取Excel路径
+        method.getName();
+        return DataProviderUtils.getData("/testcase/login/login" +
+                ".xlsx", "登录失败", LoginFailData.class);
+    }
+
+    /**
+     * @Description: 正向测试用例
+     * @Param: []
+     * @return: java.lang.Object[][]
+     * @Author: Adam
+     * @Date: 2019/10/31
+     */
+    @DataProvider
+    public static Object[][] successData() {
+        return DataProviderUtils.getData("/testcase/login/login" +
+                ".xlsx", "登录成功", LoginSuccessData.class);
     }
 
 }

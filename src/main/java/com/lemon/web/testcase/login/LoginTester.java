@@ -18,17 +18,39 @@ import java.util.concurrent.TimeUnit;
  */
 public class LoginTester extends BaseTester {
 
-    @Test(dataProvider = "dp1", dataProviderClass = LoginDataProvider.class)
-    public void loginTestCase(String mobliePhone, String password, String expectedTips) throws InterruptedException {
+    /**
+    * @Description: 登录失败
+    * @Param: [mobliePhone, password, expectedTips]
+    * @return: void
+    * @Author: Adam
+    * @Date: 2019/10/31
+    */
+    @Test(dataProvider = "failData", dataProviderClass = LoginDataProvider.class)
+    public void loginFail(LoginFailData testData) throws InterruptedException {
         toURL("login_url");
-        type(By.id("mobilephone"), mobliePhone);
-        type(By.id("password"), password);
+        type(By.id("mobilephone"), testData.getPhone());
+        type(By.id("password"), testData.getPassword());
         click(By.id("login"));
         // 强制等待
-        Thread.sleep(1000);
+//        Thread.sleep(1000);
         // 断言
-        String actual = getText(By.className("tips"));
-        Assert.assertEquals(actual, expectedTips);
+        String actual = getElementText(By.className("tips"));
+        Assert.assertEquals(actual, testData.getExpectedTips());
+    }
+
+    @Test(dataProvider = "successData", dataProviderClass = LoginDataProvider.class)
+    public void loginSuccess(LoginSuccessData testData) throws
+            InterruptedException {
+        toURL("login_url");
+        type(By.id("mobilephone"), testData.getPhone());
+        type(By.id("password"), testData.getPassword());
+        click(By.id("login"));
+//        System.out.println(testData);
+        // 强制等待
+        Thread.sleep(2000);
+        // 断言
+        Assert.assertTrue(getCurrentUrl().contains(testData.getPartialUrl()));
+//        driver.getTitle()
     }
 
 }

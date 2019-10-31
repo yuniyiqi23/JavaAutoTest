@@ -13,11 +13,11 @@
                     <include name="loginTestCase"/>
                 </methods>
             </class>
-            <class name="com.lemon.web.testcase.register.RegisterTester">
-                <methods>
-                    <include name="registerTestCase"/>
-                </methods>
-            </class>
+            <!--<class name="com.lemon.web.testcase.register.RegisterTester">-->
+                <!--<methods>-->
+                    <!--<include name="registerTestCase"/>-->
+                <!--</methods>-->
+            <!--</class>-->
         </classes>
     </test>
 </suite>

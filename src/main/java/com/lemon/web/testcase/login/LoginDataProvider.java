@@ -3,11 +3,9 @@ package com.lemon.web.testcase.login;/**
  */
 
 import com.lemon.web.utils.DataProviderUtils;
-import com.lemon.web.utils.ExcelUtil;
 import org.testng.annotations.DataProvider;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * @program: JavaAutoTest
@@ -34,7 +32,7 @@ public class LoginDataProvider {
      * @Date: 2019/10/31
      */
     @DataProvider
-    public static Object[][] successData() {
+    public static Object[][] successData(Method method) {
         return DataProviderUtils.getData("/testcase/login/login" +
                 ".xlsx", "登录成功", LoginSuccessData.class);
     }

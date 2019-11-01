@@ -4,11 +4,8 @@ package com.lemon.web.testcase.login;/**
 
 import com.lemon.web.base.BaseTester;
 import org.openqa.selenium.By;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @program: java_web_auto

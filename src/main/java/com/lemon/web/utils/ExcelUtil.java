@@ -1,6 +1,5 @@
 package com.lemon.web.utils;
 
-import com.lemon.base.pojo.ApiInfo;
 import com.lemon.base.utils.ParamUtils;
 import com.lemon.web.testcase.login.LoginFailData;
 import org.apache.poi.ss.usermodel.*;

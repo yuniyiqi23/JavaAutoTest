@@ -17,18 +17,17 @@ import org.testng.annotations.Test;
 public class RegisterTester extends BaseTester {
 
     @Test(dataProvider = "dp1", dataProviderClass = RegisterDataProvider.class)
-    public void registerTestCase(String mobliePhone, String password, String
-            pwdConfirm, String verifyCode,
-                     String expectedTips) throws InterruptedException {
+    public void registerTestCase(RegisterFailData testData) throws
+            InterruptedException {
         toURL("register_url");
-        type(By.id("mobilephone"), mobliePhone);
-        type(By.id("password"), password);
-        type(By.id("pwdconfirm"), pwdConfirm);
-        type(By.id("verifycode"), verifyCode);
+        type(By.id("mobilephone"), testData.getMobilephone());
+        type(By.id("password"), testData.getPassword());
+        type(By.id("pwdconfirm"), testData.getPwdconfirm());
+        type(By.id("verifycode"), testData.getVerifycode());
         click(By.id("signup-button"));
         // 断言
         String actual = getText(By.className("tips"));
-        Assert.assertEquals(actual, expectedTips);
+        Assert.assertEquals(actual, testData.getExpectedTips());
     }
 
 }

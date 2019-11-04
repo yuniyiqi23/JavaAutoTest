@@ -3,9 +3,13 @@ package com.lemon.web.testcase.login;/**
  */
 
 import com.lemon.web.base.BaseTester;
+import com.lemon.web.pojo.Locator;
+import com.lemon.web.utils.LocatorUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.Map;
 
 /**
  * @program: java_web_auto
@@ -23,30 +27,31 @@ public class LoginTester extends BaseTester {
     * @Date: 2019/10/31
     */
     @Test(dataProvider = "failData", dataProviderClass = LoginDataProvider.class)
-    public void loginFail(LoginFailData testData) throws InterruptedException {
+    public void login_fail(LoginFailData testData) throws InterruptedException {
         toURL("login_url");
-        type(By.id("mobilephone"), testData.getPhone());
-        type(By.id("password"), testData.getPassword());
-        click(By.id("login"));
-        // 强制等待
-//        Thread.sleep(1000);
+//        type(By.id("mobilephone"), testData.getPhone());
+//        type(By.id("password"), testData.getPassword());
+//        click(By.id("login"));
+        // 从XML获取元素定位信息
+
+        type("登录页面", "手机号码输入框", testData.getPhone());
+        type("登录页面","密码输入框", testData.getPassword());
+        click("登录页面", "登录按钮");
         // 断言
-        String actual = getElementText(By.className("tips"));
+        String actual = getElementText("登录页面", "提示信息元素");
         Assert.assertEquals(actual, testData.getExpectedTips());
     }
 
-    @Test(dataProvider = "successData", dataProviderClass = LoginDataProvider.class)
-    public void loginSuccess(LoginSuccessData testData) throws
-            InterruptedException {
+    @Test(enabled = false, dataProvider = "successData", dataProviderClass =
+            LoginDataProvider.class)
+    public void login_success(LoginSuccessData testData) throws InterruptedException {
         toURL("login_url");
         type(By.id("mobilephone"), testData.getPhone());
         type(By.id("password"), testData.getPassword());
         click(By.id("login"));
 //        System.out.println(testData);
-        // 强制等待
-        Thread.sleep(2000);
         // 断言
-        Assert.assertTrue(getCurrentUrl().contains(testData.getPartialUrl()));
+        Assert.assertTrue(currentUrlContainers(testData.getPartialUrl()));
 //        driver.getTitle()
     }
 

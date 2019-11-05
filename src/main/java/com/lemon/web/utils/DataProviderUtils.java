@@ -21,10 +21,10 @@ public class DataProviderUtils {
     * @Author: Adam
     * @Date: 2019/10/31
     */
-    public static Object[][] getData(String excelPath, String sheetName,
+    public static Object[][] getData(String excelPath, int sheetNo,
                                Class<? extends ExcelObject> clazz) {
         // 读取Excel中的数据
-        List<Object> results = ExcelUtil.readExcel(excelPath, sheetName, clazz);
+        List<Object> results = ExcelUtil.readExcel(excelPath, sheetNo, clazz);
         // 转成二维数组
         Object[][] datas = new Object[results.size()][];
         for (int i = 0; i < results.size(); i++) {

@@ -3,13 +3,10 @@ package com.lemon.web.testcase.login;/**
  */
 
 import com.lemon.web.base.BaseTester;
-import com.lemon.web.pojo.Locator;
-import com.lemon.web.utils.LocatorUtils;
+import com.lemon.web.base.CaseDataProvider;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.Map;
 
 /**
  * @program: java_web_auto
@@ -26,14 +23,14 @@ public class LoginTester extends BaseTester {
     * @Author: Adam
     * @Date: 2019/10/31
     */
-    @Test(dataProvider = "failData", dataProviderClass = LoginDataProvider.class)
-    public void login_fail(LoginFailData testData) throws InterruptedException {
+    @Test(dataProvider = "dp", dataProviderClass = CaseDataProvider.class)
+    public void login_failure_test_case(LoginFailureData testData) throws
+            InterruptedException {
         toURL("login_url");
 //        type(By.id("mobilephone"), testData.getPhone());
 //        type(By.id("password"), testData.getPassword());
 //        click(By.id("login"));
         // 从XML获取元素定位信息
-
         type("登录页面", "手机号码输入框", testData.getPhone());
         type("登录页面","密码输入框", testData.getPassword());
         click("登录页面", "登录按钮");
@@ -42,9 +39,10 @@ public class LoginTester extends BaseTester {
         Assert.assertEquals(actual, testData.getExpectedTips());
     }
 
-    @Test(enabled = false, dataProvider = "successData", dataProviderClass =
-            LoginDataProvider.class)
-    public void login_success(LoginSuccessData testData) throws InterruptedException {
+    @Test(enabled = false, dataProvider = "dp", dataProviderClass =
+            CaseDataProvider.class)
+    public void login_success_test_case(LoginSuccessData testData) throws
+            InterruptedException {
         toURL("login_url");
         type(By.id("mobilephone"), testData.getPhone());
         type(By.id("password"), testData.getPassword());

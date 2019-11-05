@@ -4,7 +4,6 @@ package com.lemon.web.testcase.register;/**
 
 import com.lemon.web.base.BaseTester;
 import org.openqa.selenium.By;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -17,7 +16,7 @@ import org.testng.annotations.Test;
 public class RegisterTester extends BaseTester {
 
     @Test(dataProvider = "dp1", dataProviderClass = RegisterDataProvider.class)
-    public void registerTestCase(RegisterFailData testData) throws
+    public void registerTestCase(RegisterFailureData testData) throws
             InterruptedException {
         toURL("register_url");
         type(By.id("mobilephone"), testData.getMobilephone());

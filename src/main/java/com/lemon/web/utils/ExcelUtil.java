@@ -1,7 +1,7 @@
 package com.lemon.web.utils;
 
 import com.lemon.base.utils.ParamUtils;
-import com.lemon.web.testcase.login.LoginFailData;
+import com.lemon.web.testcase.login.LoginFailureData;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.InputStream;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ExcelUtil {
 
-    public static List<Object> readExcel(String filePath, String sheetName,
+    public static List<Object> readExcel(String filePath, int sheetNo,
                                          Class objectClass) {
         List<Object> objectList = null;
         try {
@@ -21,7 +21,7 @@ public class ExcelUtil {
             // 创建工作簿对象
             Workbook workbook = WorkbookFactory.create(isStream);
             // 读取表单对象
-            Sheet sheet = (Sheet) workbook.getSheet(sheetName);
+            Sheet sheet = (Sheet) workbook.getSheetAt(sheetNo);
             // 读取第一行
             Row firstRow = sheet.getRow(0);
             int lastCellnum = firstRow.getLastCellNum();
@@ -85,8 +85,8 @@ public class ExcelUtil {
     }
 
     public static void main(String[] arg) throws Exception {
-        List<Object> results = readExcel("/testcase/login/login.xlsx", "",
-                LoginFailData.class);
+        List<Object> results = readExcel("/testcase/login/login.xlsx", 0,
+                LoginFailureData.class);
         for (Object obj : results) {
             System.out.println(obj);
         }

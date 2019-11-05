@@ -2,7 +2,6 @@ package com.lemon.web.testcase.register;/**
  * Created by TW on 2019/10/28 16:51
  */
 
-import com.lemon.web.testcase.login.LoginFailData;
 import com.lemon.web.utils.DataProviderUtils;
 import org.testng.annotations.DataProvider;
 
@@ -21,7 +20,7 @@ public class RegisterDataProvider {
         // 从方法名中获取Excel路径
         method.getName();
         return DataProviderUtils.getData("/testcase/register/register" +
-                ".xlsx", "注册失败", RegisterFailData.class);
+                ".xlsx", 0, RegisterFailureData.class);
     }
 
     //正向测试用例的数据提供者

@@ -10,7 +10,7 @@ import com.lemon.base.pojo.ExcelObject;
  *@author: liu yan
  *@create: 2019-10-31 18:18
  */
-public class LoginFailData extends ExcelObject {
+public class LoginFailureData extends ExcelObject {
 //    Phone	Password	ExpectedTips
     private String phone;
     private String password;

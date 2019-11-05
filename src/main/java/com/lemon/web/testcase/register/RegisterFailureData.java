@@ -10,7 +10,7 @@ import com.lemon.base.pojo.ExcelObject;
  *@author: liu yan
  *@create: 2019-10-31 18:18
  */
-public class RegisterFailData extends ExcelObject {
+public class RegisterFailureData extends ExcelObject {
 //    Mobilephone	Password	Pwdconfirm	Verifycode ExpectedTips
     private String mobilephone;
     private String password;

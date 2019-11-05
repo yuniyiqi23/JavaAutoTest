@@ -21,7 +21,7 @@ public class LoginDataProvider {
         // 从方法名中获取Excel路径
         method.getName();
         return DataProviderUtils.getData("/testcase/login/login" +
-                ".xlsx", "登录失败", LoginFailData.class);
+                ".xlsx", 0, LoginFailureData.class);
     }
 
     /**
@@ -34,7 +34,7 @@ public class LoginDataProvider {
     @DataProvider
     public static Object[][] successData(Method method) {
         return DataProviderUtils.getData("/testcase/login/login" +
-                ".xlsx", "登录成功", LoginSuccessData.class);
+                ".xlsx", 0, LoginSuccessData.class);
     }
 
 }

@@ -40,6 +40,7 @@ public class LocatorUtils {
 //        getAllLocators = getPageLocators();
     }
 
+
     public static Map<String, Locator> getLocatorsByPageName(String pageName) {
         return getAllLocators.get(pageName);
     }

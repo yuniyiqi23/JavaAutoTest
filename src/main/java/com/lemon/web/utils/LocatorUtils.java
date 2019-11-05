@@ -8,6 +8,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,75 +23,93 @@ import java.util.Map;
  * @create: 2019-11-04 18:42
  */
 public class LocatorUtils {
-    
-    private static Map<String, Map<String, Locator>> getAllLocators;
-    
-    /** 
-    * @Description: 静态代码块，获取全部定位元素
-    * @Param:  
-    * @return:  
-    * @Author: Adam
-    * @Date: 2019/11/4 
-    */
+
+    private static Map<String, Map<String, Locator>> getAllLocators = new HashMap<>();
+
+    /**
+     * @Description: 静态代码块，获取全部定位元素
+     * @Param:
+     * @return:
+     * @Author: Adam
+     * @Date: 2019/11/4
+     */
     static {
-        getAllLocators = getPageLocators();
+        String pagePath = LocatorUtils.class.getClassLoader().getResource
+                ("page").getPath();
+        readXMLFiles(pagePath);
+//        getAllLocators = getPageLocators();
     }
 
-    public static Map<String, Locator> getLocatorsByPageName(String pageName){
+    public static Map<String, Locator> getLocatorsByPageName(String pageName) {
         return getAllLocators.get(pageName);
     }
 
     public static Locator getLocatorByPageNameAndLocatorName(String pageName,
-                String locatorName){
+                                                             String locatorName) {
         return getAllLocators.get(pageName).get(locatorName);
     }
 
-    /** 
-    * @Description: 获取页面定位元素 
-    * @Param: [] 
-    * @return: java.util.Map<java.lang.String,java.util.Map<java.lang.String,com.lemon.web.pojo.Locator>> 
-    * @Author: Adam
-    * @Date: 2019/11/4 
-    */
-    private static Map<String, Map<String, Locator>> getPageLocators() {
-        InputStream inputStream = LocatorUtils.class.getResourceAsStream
-                ("/page/page.xml");
+    /**
+     * @Description: 获取页面定位元素
+     * @Param: []
+     * @return: java.util.Map<java.lang.String                               ,                               java.util.Map                               <                               java.lang.String                               ,                               com.lemon.web.pojo.Locator>>
+     * @Author: Adam
+     * @Date: 2019/11/4
+     */
+    private static void getPageLocators(String filePath) {
+        InputStream inputStream = null;
         SAXReader saxReader = new SAXReader();
-        Map<String, Map<String, Locator>> pagesMap = new HashMap<>();
+//        Map<String, Map<String, Locator>> pagesMap = new HashMap<>();
         try {
+            inputStream = new FileInputStream(filePath);
             Document document = saxReader.read(inputStream);
             Element root = document.getRootElement();
-            List<Element> pageElements = root.elements("page");
+//            List<Element> pageElements = root.elements("page");
             // 查找页面
-            for (Element page : pageElements) {
+//            for (Element page : pageElements) {
 //                System.out.println(page.attributeValue("pageName"));
-                List<Element> locatorElements = page.elements("locator");
-                // 查找定位元素
-                Map<String, Locator> locatorList = new HashMap<>();
-                for (Element item : locatorElements){
-                    String name = item.attributeValue("name");
-                    Locator locator = new Locator(name,
-                            item.attributeValue("type"),  item.attributeValue
-                            ("value"));
-                    locatorList.put(name, locator);
-//                    System.out.println(item.attributeValue("name"));
-//                    System.out.println(item.attributeValue("type"));
-//                    System.out.println(item.attributeValue("value"));
-                }
-                pagesMap.put(page.attributeValue("pageName"), locatorList);
+            List<Element> locatorElements = root.elements("locator");
+            // 查找定位元素
+            Map<String, Locator> locatorList = new HashMap<>();
+            for (Element item : locatorElements) {
+                String name = item.attributeValue("name");
+                Locator locator = new Locator(name,
+                        item.attributeValue("type"), item.attributeValue
+                        ("value"));
+                locatorList.put(name, locator);
             }
-        } catch (DocumentException e) {
+            getAllLocators.put(root.attributeValue("pageName"), locatorList);
+//            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return pagesMap;
+    }
+
+    /**
+     * @Description: 获取文件路径下的所有xml文件
+     * @Param: [filePath]
+     * @return: void
+     * @Author: Adam
+     * @Date: 2019/11/5
+     */
+    public static void readXMLFiles(String filePath) {
+        File file = new File(filePath);
+        File[] subFiles = file.listFiles();
+        for (File item : subFiles) {
+            if (item.isFile() && item.getName().endsWith(".xml")) {
+                // 解析xml文件
+                getPageLocators(item.getAbsolutePath());
+//                System.out.println(item.getAbsolutePath());
+            } else if (item.isDirectory()) {
+                readXMLFiles(item.getAbsolutePath());
+            }
+//            System.out.println(item.getAbsolutePath());
+        }
     }
 
     public static void main(String[] args) {
-        Map<String, Map<String, Locator>> pagesMap = getPageLocators();
-
-        Map<String, Locator> page = pagesMap.get("登录页面");
-        Locator locator = page.get("手机号码输入框");
-        System.out.println(locator.getType());
+        Locator locator = getLocatorByPageNameAndLocatorName("登录页面", "登录按钮");
+        System.out.println(locator);
     }
 
 }

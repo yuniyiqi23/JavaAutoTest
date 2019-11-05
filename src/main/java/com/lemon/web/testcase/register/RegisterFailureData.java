@@ -14,8 +14,8 @@ public class RegisterFailureData extends ExcelObject {
 //    Mobilephone	Password	Pwdconfirm	Verifycode ExpectedTips
     private String mobilephone;
     private String password;
-    private String pwdconfirm;
-    private String verifycode;
+    private String pwdConfirm;
+    private String verifyCode;
     private String expectedTips;
 
     public String getMobilephone() {
@@ -34,20 +34,20 @@ public class RegisterFailureData extends ExcelObject {
         this.password = password;
     }
 
-    public String getPwdconfirm() {
-        return pwdconfirm;
+    public String getPwdConfirm() {
+        return pwdConfirm;
     }
 
-    public void setPwdconfirm(String pwdconfirm) {
-        this.pwdconfirm = pwdconfirm;
+    public void setPwdConfirm(String pwdConfirm) {
+        this.pwdConfirm = pwdConfirm;
     }
 
-    public String getVerifycode() {
-        return verifycode;
+    public String getVerifyCode() {
+        return verifyCode;
     }
 
-    public void setVerifycode(String verifycode) {
-        this.verifycode = verifycode;
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
     }
 
     public String getExpectedTips() {
@@ -60,11 +60,11 @@ public class RegisterFailureData extends ExcelObject {
 
     @Override
     public String toString() {
-        return "RegisterFailData{" +
+        return "RegisterFailureData{" +
                 "mobilephone='" + mobilephone + '\'' +
                 ", password='" + password + '\'' +
-                ", pwdconfirm='" + pwdconfirm + '\'' +
-                ", verifycode='" + verifycode + '\'' +
+                ", pwdConfirm='" + pwdConfirm + '\'' +
+                ", verifycode='" + verifyCode + '\'' +
                 ", expectedTips='" + expectedTips + '\'' +
                 "} " + super.toString();
     }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page pageName="注册页面">
+	<locator name="手机号码输入框" type="id" value="mobilephone"></locator>
+	<locator name="密码输入框" type="id" value="password"></locator>
+	<locator name="重复密码输入框" type="id" value="pwdconfirm"></locator>
+	<locator name="验证码" type="id" value="verifycode"></locator>
+	<locator name="注册按钮" type="id" value="signup-button"></locator>
+	<locator name="重置按钮" type="name" value="reset"></locator>
+	<locator name="提示信息元素" type="className" value="tips"></locator>
+</page>

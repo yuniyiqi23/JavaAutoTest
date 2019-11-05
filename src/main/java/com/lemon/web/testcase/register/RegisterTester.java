@@ -3,6 +3,7 @@ package com.lemon.web.testcase.register;/**
  */
 
 import com.lemon.web.base.BaseTester;
+import com.lemon.web.base.CaseDataProvider;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -15,14 +16,14 @@ import org.testng.annotations.Test;
  */
 public class RegisterTester extends BaseTester {
 
-    @Test(dataProvider = "dp1", dataProviderClass = RegisterDataProvider.class)
-    public void registerTestCase(RegisterFailureData testData) throws
+    @Test(dataProvider = "dp", dataProviderClass = CaseDataProvider.class)
+    public void register_failure_test_case(RegisterFailureData testData) throws
             InterruptedException {
         toURL("register_url");
         type(By.id("mobilephone"), testData.getMobilephone());
         type(By.id("password"), testData.getPassword());
-        type(By.id("pwdconfirm"), testData.getPwdconfirm());
-        type(By.id("verifycode"), testData.getVerifycode());
+        type(By.id("pwdconfirm"), testData.getPwdConfirm());
+        type(By.id("verifycode"), testData.getVerifyCode());
         click(By.id("signup-button"));
         // 断言
         String actual = getText(By.className("tips"));

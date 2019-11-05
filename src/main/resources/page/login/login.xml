@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 一个系统有很多的模块，一个模块有很多的页面，一个页面有很多的元素 思路：所有页面的元素信息都保存到这个页面 -->
+<page pageName="登录页面">
+	<locator name="手机号码输入框" type="id" value="mobilephone"></locator>
+	<locator name="密码输入框" type="id" value="password"></locator>
+	<locator name="登录按钮" type="id" value="login"></locator>
+	<locator name="重置按钮" type="cssSelector" value="input[type='reset']"></locator>
+	<locator name="提示信息元素" type="className" value="tips"></locator>
+</page>

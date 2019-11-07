@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
@@ -26,9 +27,12 @@ import java.util.Properties;
  * @author: liu yan
  * @create: 2019-10-28 16:59
  */
-public class BaseTester {
+public abstract class BaseTester {
     protected static WebDriver driver = null;
     private static long WAITTIME = 5L;
+    private static int CLOSEWINDOWTIME = 2000;
+
+    protected abstract String getCurrentPageName();
 
     @BeforeSuite
     public void beforeSuite() {
@@ -38,7 +42,7 @@ public class BaseTester {
 
     @AfterSuite
     public void afterSuite() throws InterruptedException {
-        Thread.sleep(1200);
+        Thread.sleep(CLOSEWINDOWTIME);
         driver.quit();
     }
 
@@ -106,7 +110,7 @@ public class BaseTester {
      * @Author: Adam
      * @Date: 2019/10/31
      */
-    protected String getElementText(String pageName, String locatorName) {
+    protected String excuteGetElementText(String pageName, String locatorName) {
         WebDriverWait wait = new WebDriverWait(driver, WAITTIME);
         return wait.until(new ExpectedCondition<String>() {
             @Override
@@ -120,6 +124,28 @@ public class BaseTester {
                 return null;
             }
         });
+    }
+
+    /**
+     * @Description: 获取当前页面元素文本
+     * @Param: [locatorName]
+     * @return: java.lang.String
+     * @Author: Adam
+     * @Date: 2019/11/7
+     */
+    protected String getElementText(String locatorName) {
+        return getElementText(this.getCurrentPageName(), locatorName);
+    }
+
+    /** 
+    * @Description: 获取页面元素的文本 
+    * @Param: [pageName, locatorName] 
+    * @return: java.lang.String 
+    * @Author: Adam
+    * @Date: 2019/11/7 
+    */
+    protected String getElementText(String pageName, String locatorName) {
+        return excuteGetElementText(pageName, locatorName);
     }
 
     /**
@@ -148,6 +174,10 @@ public class BaseTester {
         getElement(pageName, locatorName).click();
     }
 
+    protected void click(String locatorName) {
+        getElement(this.getCurrentPageName(), locatorName).click();
+    }
+
     /**
      * @Description: 输入元素
      * @Param: []
@@ -163,6 +193,10 @@ public class BaseTester {
         getElement(pageName, locatorName).sendKeys(content);
     }
 
+    protected void type(String locatorName, String content) {
+        getElement(this.getCurrentPageName(), locatorName).sendKeys(content);
+    }
+
     /**
      * @Description: 获取元素文本
      * @Param: []
@@ -175,7 +209,7 @@ public class BaseTester {
     }
 
     /**
-     * @Description: 只能等待，获取URL
+     * @Description: 智能等待，获取URL
      * @Param: []
      * @return: java.lang.String
      * @Author: Adam
@@ -196,5 +230,30 @@ public class BaseTester {
                 return null;
             }
         });
+    }
+
+    /**
+     * @Description: 当前页面提示信息断言
+     * @Param: [elementName, expectedText]
+     * @return: void
+     * @Author: Adam
+     * @Date: 2019/11/7
+     */
+    protected void assertElementText(String locatorName, String expectedText) {
+        assertElementText(this.getCurrentPageName(), locatorName, expectedText);
+    }
+
+    /** 
+    * @Description: 页面元素文本断言
+    * @Param: [pageName, elementName, expectedText] 
+    * @return: void 
+    * @Author: Adam
+    * @Date: 2019/11/7 
+    */
+    protected void assertElementText(String pageName, String locatorName,
+                                     String expectedText) {
+        String actual = getElementText(pageName, locatorName);
+        Assert.assertEquals(actual, expectedText);
+
     }
 }

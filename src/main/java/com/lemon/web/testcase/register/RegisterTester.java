@@ -16,18 +16,23 @@ import org.testng.annotations.Test;
  */
 public class RegisterTester extends BaseTester {
 
+    @Override
+    protected String getCurrentPageName() {
+        return "注册页面";
+    }
+
+
     @Test(dataProvider = "dp", dataProviderClass = CaseDataProvider.class)
     public void register_failure_test_case(RegisterFailureData testData) throws
             InterruptedException {
         toURL("register_url");
-        type(By.id("mobilephone"), testData.getMobilephone());
-        type(By.id("password"), testData.getPassword());
-        type(By.id("pwdconfirm"), testData.getPwdConfirm());
-        type(By.id("verifycode"), testData.getVerifyCode());
-        click(By.id("signup-button"));
+        type("手机号码输入框", testData.getMobilephone());
+        type("密码输入框", testData.getPassword());
+        type("重复密码输入框", testData.getPwdConfirm());
+        type("验证码", testData.getVerifyCode());
+        click("注册按钮");
         // 断言
-        String actual = getText(By.className("tips"));
-        Assert.assertEquals(actual, testData.getExpectedTips());
+        assertElementText("提示信息元素", testData.getExpectedTips());
     }
 
 }

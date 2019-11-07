@@ -53,9 +53,7 @@ public class LoginTester extends BaseTester {
         click("登录按钮");
 //        System.out.println(testData);
         // 断言
-        Assert.assertTrue(currentUrlContainers(testData.getPartialUrl()));
-//        driver.getTitle()
+        assertCurrentUrlContainers(testData.getPartialUrl());
     }
-
 
 }

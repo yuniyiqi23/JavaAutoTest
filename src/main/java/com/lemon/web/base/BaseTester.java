@@ -254,6 +254,46 @@ public abstract class BaseTester {
                                      String expectedText) {
         String actual = getElementText(pageName, locatorName);
         Assert.assertEquals(actual, expectedText);
-
     }
+
+    /** 
+    * @Description: 断言当前URL包含某部分文本
+    * @Param: [partialUrl] 
+    * @return: void 
+    * @Author: Adam
+    * @Date: 2019/11/7 
+    */
+    protected void assertCurrentUrlContainers(String partialUrl) {
+        Assert.assertTrue(currentUrlContainers(partialUrl));
+    }
+
+    // assertTextPresent：断言页面元素文本值为某文本
+    protected void assertTextPresent(String pageName,String locatorName,String expectedText){
+        //TODO
+    }
+    // assertPartialTextPresent：断言指定页面元素文本值包含某文本
+    protected void assertPartialTextPresent(String pageName,String locatorName,String expectedText){
+        String actualText = getElement(pageName, locatorName).getText();
+        Assert.assertTrue(actualText.contains(expectedText));
+    }
+    //断言指定页面元素文本值包含某文本
+    protected void assertPartialTextPresent(String locatorName,String expectedText){
+        assertPartialTextPresent(this.getCurrentPageName(), locatorName, expectedText);
+    }
+
+    // assertElementEditable：断言某元素可编辑
+    protected void assertElementEditable(String pageName,String locatorName){
+        WebElement element = getElement(pageName, locatorName);
+        Assert.assertTrue(element.isEnabled());
+    }
+    protected void assertElementEditable(String locatorName){
+        assertElementEditable(this.getCurrentPageName(), locatorName);
+    }
+    // assertElementNotEditable：断言某元素不可编辑
+    // assertURLContains：断言当前URL包含
+    // assertTextNotPresent
+    // assertTextNotPresentPrecesion
+    // assertElementAttributeValueEquals
+    // assertElementAttributeValueNotEquals
+    // assertAlertTextContains
 }

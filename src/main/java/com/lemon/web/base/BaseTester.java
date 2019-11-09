@@ -10,16 +10,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * @program: JavaAutoTest
@@ -28,6 +24,8 @@ import java.util.Properties;
  * @create: 2019-10-28 16:59
  */
 public abstract class BaseTester {
+    // TODO 完善日志
+
     protected static WebDriver driver = null;
     private static long WAITTIME = 5L;
     private static int CLOSEWINDOWTIME = 2000;

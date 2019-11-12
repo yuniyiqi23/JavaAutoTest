@@ -32,6 +32,10 @@ public abstract class BaseTester {
 
     protected abstract String getCurrentPageName();
 
+    public static WebDriver getDriver() {
+        return driver;
+    }
+
     @BeforeSuite
     public void beforeSuite() {
         driver = WebAutoUtils.getDriver("chrome", "2.x");

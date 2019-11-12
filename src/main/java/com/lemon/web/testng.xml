@@ -3,6 +3,7 @@
 <suite name="All Test Suite">
     <listeners>
         <listener class-name="com.lemon.web.utils.IReporterImp"/>
+        <listener class-name="com.lemon.web.listener.WebAutoListener"/>
     </listeners>
 
     <test verbose="2" preserve-order="true"

@@ -44,7 +44,6 @@ public class LoginTester extends BaseTester {
         assertElementText("提示信息元素", testData.getExpectedTips());
     }
 
-
     @Test(dataProvider = "dp", dataProviderClass =
             CaseDataProvider.class)
     public void login_success_test_case(LoginSuccessData testData) throws

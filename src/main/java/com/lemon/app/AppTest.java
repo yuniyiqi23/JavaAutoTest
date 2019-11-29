@@ -1,8 +1,12 @@
 package com.lemon.app;/**
  * Created by TW on 2019/11/22 16:00
  */
+
+import com.lemon.app.utils.GestureUtils;
+import com.lemon.app.utils.ListElementLocate;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
@@ -17,10 +21,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- *@program: JavaAutoTest
- *@description: App测试
- *@author: liu yan
- *@create: 2019-11-22 16:00
+ * @program: JavaAutoTest
+ * @description: App测试
+ * @author: liu yan
+ * @create: 2019-11-22 16:00
  */
 public class AppTest {
 
@@ -31,7 +35,13 @@ public class AppTest {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setCapability("deviceName", "127.0.0.1:62025");
         desiredCapabilities.setCapability("platformName", "Android");
+//        desiredCapabilities.setCapability("appPackage", "com.xxzb.fenwoo");
+//        desiredCapabilities.setCapability("appPackage", "com.baidu.BaiduMap");
+//        desiredCapabilities.setCapability("appActivity", "com.baidu.baidumaps.WelcomeScreen");
+//        desiredCapabilities.setCapability("appActivity", ".activity.addition.WelcomeActivity");
+// 3、测试App包名，选择哪一个APP进行测试
         desiredCapabilities.setCapability("appPackage", "com.lemon.lemonban");
+        // 4、App启动，相当于式大门，启动App
         desiredCapabilities.setCapability("appActivity", "com.lemon.lemonban.activity.WelcomeActivity");
 
         desiredCapabilities.setCapability(MobileCapabilityType
@@ -45,8 +55,8 @@ public class AppTest {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
-    @Test
-    public void login() throws InterruptedException {
+    @Test(enabled = false)
+    public void loginTestCase() throws InterruptedException {
         MobileElement el1 = (MobileElement) driver.findElementByXPath("//android.widget.FrameLayout[@content-desc=\"我的柠檬\"]/android.widget.ImageView");
         el1.click();
         MobileElement el2 = (MobileElement) driver.findElementById("com.lemon.lemonban:id/fragment_my_lemon_avatar_title");
@@ -63,8 +73,8 @@ public class AppTest {
         System.out.println(webElement.getText());
     }
 
-    @Test
-    public void listTestCase(){
+    @Test(enabled = false)
+    public void listTestCase() {
         driver.findElementByAndroidUIAutomator("new UiSelector().text" +
                 "(\"题库\")").click();
 //        driver.findElementByAndroidUIAutomator("new UiSelector().text" +
@@ -76,8 +86,18 @@ public class AppTest {
         driver.getPageSource();
         driver.getDeviceTime();
         driver.getDisplayDensity();
-
     }
+
+    @Test
+    public void testCase() throws InterruptedException {
+//        Thread.sleep(3000);
+//        GestureUtils.swipeDown(driver);
+//        GestureUtils.unLockSquered(driver);
+//        GestureUtils.zoomIn(driver);
+        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"题库\")").click();
+        ListElementLocate.findElement(driver, "接口测试");
+    }
+
 
     @AfterClass
     public void tearDown() throws InterruptedException {

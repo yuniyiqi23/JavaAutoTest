@@ -14,13 +14,12 @@ import java.util.concurrent.TimeUnit;
 
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.Assert;
+import org.testng.annotations.*;
 
 /**
  * @program: JavaAutoTest
@@ -30,24 +29,37 @@ import org.testng.annotations.Test;
  */
 public class LoginTest extends BaseTest {
 
-    @BeforeTest
+    private static Logger logger = Logger.getLogger(LoginTest.class);
+
+
+    @BeforeClass
     public void beforeTest() {
         toClick("主页页面", "我的柠檬");
         toClick("主页页面", "点击头像登录");
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3, enabled = true)
     public void testLoginSuccess() throws InterruptedException {
+        logger.info("-------------------StartTestLoginSuccess---------------");
         toType("登录页面", "手机号码输入框", "13323234545");
         toType("登录页面", "密码输入框", "234545");
         toClick("登录页面", "登录按钮");
+        Thread.sleep(3000);
+        String expected = getActivtyNameByPageDesc("主页页面");
+        String actual = getCurrentActivtyName();
+        Assert.assertEquals(actual, expected);
     }
 
-    @Test(priority = 2)
-    public void testLoginFailure() throws InterruptedException {
-        toType("登录页面", "手机号码输入框", "13323234545");
-        toType("登录页面", "密码输入框", "123456");
+    @Test(priority = 2, dataProvider = "getLoginFailureDatas")
+    public void testLoginFailure(String mobilephone, String password, String tips) throws InterruptedException {
+        logger.info("-------------------StarTestLoginFailure---------------");
+        toType("登录页面", "手机号码输入框", mobilephone);
+        toType("登录页面", "密码输入框", password);
         toClick("登录页面", "登录按钮");
+        // 断言
+        String expected = tips;
+        String actual = getToastTips(tips);
+        Assert.assertEquals(actual, expected);
     }
 
     @Test(enabled = false, priority = 3)
@@ -73,6 +85,14 @@ public class LoginTest extends BaseTest {
 //        GestureUtils.zoomIn(driver);
         driver.findElementByAndroidUIAutomator("new UiSelector().text(\"题库\")").click();
         ListElementLocate.findElement(driver, "接口测试");
+    }
+
+    @DataProvider
+    public Object[][] getLoginFailureDatas() {
+        Object[][] objects = {{"13323234545", "123456", "错误的账号信息"},
+                {"", "123456", "手机号码或密码不能为空"}, {"1332323454", "123456", "手机号码格式不正确"},
+                {"", "", "手机号码或密码不能为空"}};
+        return objects;
     }
 
 }

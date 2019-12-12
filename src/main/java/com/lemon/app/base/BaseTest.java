@@ -32,13 +32,18 @@ public class BaseTest {
     protected AndroidDriver driver;
     private static Logger logger = Logger.getLogger(BaseTest.class);
 
-    @BeforeSuite
-    @Parameters({"deviceName", "platformName", "appPackage", "appActivity", "automationName", "appiumIP",
-            "appiumPort"})
-    public void setUp(String deviceName, String platformName, String appPackage, String appActivity,
-                      String automationName, String appiumIP, String appiumPort) throws MalformedURLException {
+    @BeforeClass
+    @Parameters({"udid", "deviceName", "platformName", "appPackage",
+            "appActivity", "automationName", "appiumIP",
+            "appiumPort", "uiautomator2Port"})
+    public void setUp(String udid, String deviceName, String platformName,
+                      String appPackage, String appActivity,
+                      String automationName, String appiumIP, String appiumPort,
+                      String uiautomator2Port) throws MalformedURLException {
         logger.info("========================开始APP测试========================");
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        //udid配置-多设备并发测试的必须指定
+        desiredCapabilities.setCapability("udid", udid);
         desiredCapabilities.setCapability("deviceName", deviceName);
         desiredCapabilities.setCapability("platformName", platformName);
 //        desiredCapabilities.setCapability("appPackage", "com.xxzb.fenwoo");
@@ -49,6 +54,9 @@ public class BaseTest {
         desiredCapabilities.setCapability("appPackage", appPackage);
         // 4、App启动，相当于式大门，启动App
         desiredCapabilities.setCapability("appActivity", appActivity);
+        //添加uiautomator2引擎端口的设置（多设备并发测试的必须要配置的）
+        desiredCapabilities.setCapability("systemPort", uiautomator2Port);
+
         // 自动化测试引擎
         desiredCapabilities.setCapability(MobileCapabilityType
                 .AUTOMATION_NAME, automationName);
@@ -130,6 +138,49 @@ public class BaseTest {
             return driver.findElement(By.xpath(locatorValue));
         }
         return null;
+    }
+
+    /**
+     * @Description: 根据pageDesc获取ActivtyName
+     * @Param: []
+     * @return: java.lang.String
+     * @Author: Adam
+     * @Date: 2019/12/10
+     */
+    public String getActivtyNameByPageDesc(String text) {
+        for (Page page : XmlUtil.listPage) {
+            if (page.getPageDesc().equalsIgnoreCase(text)) {
+                return page.getActivityName();
+            }
+        }
+        return null;
+    }
+
+    public String getCurrentActivtyName() {
+        logger.info("得到当前的类名【 " + driver.currentActivity() + " 】");
+        return driver.currentActivity();
+    }
+
+    /** 
+    * @Description: 获取Toast元素的文本值
+    * @Param: [text] 
+    * @return: java.lang.String 
+    * @Author: Adam
+    * @Date: 2019/12/10 
+    */
+    public String getToastTips(String text) {
+        WebDriverWait wait = new WebDriverWait(driver, 5, 200);
+        WebElement webElement = wait.until(new ExpectedCondition<WebElement>() {
+            @Override
+            public WebElement apply(WebDriver webDriver) {
+                return driver.findElement(By.xpath("//*[contains(@text, '"
+                        + text + "')]"));
+            }
+        });
+        if(webElement == null){
+            return "";
+        }
+        return webElement.getText();
     }
 
     @AfterSuite

@@ -29,7 +29,8 @@ import java.util.concurrent.TimeUnit;
  * @create: 2019-12-02 09:42
  */
 public class BaseTest {
-    protected AndroidDriver driver;
+    private AndroidDriver driver;
+    private static ThreadLocal<AndroidDriver> threadLocal = new ThreadLocal();
     private static Logger logger = Logger.getLogger(BaseTest.class);
 
     @BeforeClass
@@ -66,9 +67,28 @@ public class BaseTest {
         URL remoteUrl = new URL("http://" + appiumIP + ":" + appiumPort +
                 "/wd/hub");
         driver = new AndroidDriver(remoteUrl, desiredCapabilities);
+        if(threadLocal.get() == null){
+            threadLocal.set(driver);
+        }
         // 隐式等待
 //        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        logger.info(driver.getCapabilities());
+        logger.info(getDriver().getCapabilities());
+    }
+
+    /**
+     * 从threadLocal区域去取驱动
+     * @return
+     */
+    public static AndroidDriver getDriver(){
+        return threadLocal.get();
+    }
+
+    /**
+     * 把静态驱动保存到ThreadLocal区域中
+     * @param androidDriver
+     */
+    public static void setDriver(AndroidDriver androidDriver){
+        threadLocal.set(androidDriver);
     }
 
     /**
@@ -111,7 +131,7 @@ public class BaseTest {
                         //得到元素的定位方式、定位值
                         String locatorBy = locator.getLocatorBy();
                         String locatorValue = locator.getLocatorValue();
-                        WebDriverWait wait = new WebDriverWait(driver, 5);
+                        WebDriverWait wait = new WebDriverWait(getDriver(), 5);
                         WebElement webElement = wait.until(new
                                                                    ExpectedCondition<WebElement>() {
                                                                        @Override
@@ -129,13 +149,13 @@ public class BaseTest {
 
     private WebElement getWebElement(String locatorBy, String locatorValue) {
         if (locatorBy.equalsIgnoreCase("ID")) {
-            return driver.findElement(By.id(locatorValue));
+            return getDriver().findElement(By.id(locatorValue));
         } else if (locatorBy.equalsIgnoreCase("AccessibilityId")) {
-            return driver.findElementByAccessibilityId(locatorValue);
+            return getDriver().findElementByAccessibilityId(locatorValue);
         } else if (locatorBy.equalsIgnoreCase("TEXT")) {
-            return driver.findElementByAndroidUIAutomator("new UiSelector().text(" + locatorValue + ")");
+            return getDriver().findElementByAndroidUIAutomator("new UiSelector().text(" + locatorValue + ")");
         } else if (locatorBy.equalsIgnoreCase("XPATH")) {
-            return driver.findElement(By.xpath(locatorValue));
+            return getDriver().findElement(By.xpath(locatorValue));
         }
         return null;
     }
@@ -157,8 +177,8 @@ public class BaseTest {
     }
 
     public String getCurrentActivtyName() {
-        logger.info("得到当前的类名【 " + driver.currentActivity() + " 】");
-        return driver.currentActivity();
+        logger.info("得到当前的类名【 " + getDriver().currentActivity() + " 】");
+        return getDriver().currentActivity();
     }
 
     /** 
@@ -169,11 +189,11 @@ public class BaseTest {
     * @Date: 2019/12/10 
     */
     public String getToastTips(String text) {
-        WebDriverWait wait = new WebDriverWait(driver, 5, 200);
+        WebDriverWait wait = new WebDriverWait(getDriver(), 5, 200);
         WebElement webElement = wait.until(new ExpectedCondition<WebElement>() {
             @Override
             public WebElement apply(WebDriver webDriver) {
-                return driver.findElement(By.xpath("//*[contains(@text, '"
+                return getDriver().findElement(By.xpath("//*[contains(@text, '"
                         + text + "')]"));
             }
         });
@@ -187,6 +207,6 @@ public class BaseTest {
     public void tearDown() throws InterruptedException {
 //        Thread.sleep(3000);
         logger.info("========================结束APP测试========================");
-        driver.quit();
+        getDriver().quit();
     }
 }

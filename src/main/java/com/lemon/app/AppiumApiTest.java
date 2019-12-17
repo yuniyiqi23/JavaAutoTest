@@ -43,7 +43,6 @@ public class AppiumApiTest {
 		URL remoteUrl = new URL("http://localhost:4723/wd/hub");
 
 		driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-
 	}
 
 	@Test

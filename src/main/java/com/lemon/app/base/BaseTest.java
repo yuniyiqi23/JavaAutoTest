@@ -4,6 +4,7 @@ package com.lemon.app.base;/**
 
 import com.lemon.app.pojo.Locator;
 import com.lemon.app.pojo.Page;
+import com.lemon.app.utils.AppiumServerUtil;
 import com.lemon.app.utils.XmlUtil;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.AutomationName;
@@ -207,6 +208,7 @@ public class BaseTest {
     public void tearDown() throws InterruptedException {
 //        Thread.sleep(3000);
         logger.info("========================结束APP测试========================");
+        AppiumServerUtil.stopAppiumServer();
         getDriver().quit();
     }
 }

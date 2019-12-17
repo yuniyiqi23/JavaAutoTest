@@ -64,11 +64,11 @@ public class LoginTest extends BaseTest {
 
     @Test(enabled = false, priority = 3)
     public void listTestCase() {
-        driver.findElementByAndroidUIAutomator("new UiSelector().text" +
+        getDriver().findElementByAndroidUIAutomator("new UiSelector().text" +
                 "(\"题库\")").click();
 //        driver.findElementByAndroidUIAutomator("new UiSelector().text" +
 //                "(\"逻辑思维\")").click();
-        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()."
+        getDriver().findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()."
                 + "scrollable(true).instance(0))."
                 + "scrollIntoView(new UiSelector().textMatches(\"逻辑思维题\").instance(0))").click();
 //        driver.currentActivity();
@@ -83,8 +83,8 @@ public class LoginTest extends BaseTest {
 //        GestureUtils.swipeDown(driver);
 //        GestureUtils.unLockSquered(driver);
 //        GestureUtils.zoomIn(driver);
-        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"题库\")").click();
-        ListElementLocate.findElement(driver, "接口测试");
+        getDriver().findElementByAndroidUIAutomator("new UiSelector().text(\"题库\")").click();
+        ListElementLocate.findElement(getDriver(), "接口测试");
     }
 
     @DataProvider

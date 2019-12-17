@@ -2,6 +2,7 @@ package com.lemon.app.utils;
 
 import com.google.common.io.Files;
 import com.lemon.app.base.BaseTest;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 
 import java.io.File;
@@ -19,7 +20,7 @@ public class ScreenShotUtil {
 		File sourceFile = BaseTest.getDriver().getScreenshotAs(OutputType.FILE);
 		File targetFile = new File(filePath);
 		try {
-			Files.copy(sourceFile, targetFile);
+			FileUtils.copyFile(sourceFile, targetFile);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
